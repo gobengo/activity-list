@@ -8,6 +8,7 @@ var inherits = require('inherits');
 var isArray = require('is-array');
 var through = require('through2');
 var map = require('through2-map');
+var filter = require('through2-filter');
 
 /**
  * Render an activity stream in an HTMLElement
@@ -16,13 +17,17 @@ var map = require('through2-map');
 function ActivityList(el) {
     this.el = el || document.createElement('li');
     this.pageSize = 2;
-    this._renderer = null;
     // activities that have been read
     this.activities = [];
     // future elements (streamed)
-    this._future = null;
+    this._future = through.obj({ highWaterMark: 0, lowWaterMark: 0 });
     // more elements (usually from the past)
     this._more = through.obj({ highWaterMark: 0, lowWaterMark: 0 });
+
+    this._future.on('data', function (newEl) {
+        // prepend
+        el.insertBefore(newEl, el.firstChild);
+    });
     this.showMore(this.pageSize);
 }
 
@@ -39,8 +44,10 @@ ActivityList.prototype.renderActivity = function (activity) {
  * These streams will be read from quite aggressively, so don't
  * pass a very very long one to it. This is meant for real-time updates
  */
-ActivityList.prototype.stream = function (readable) {
-    console.log('_stream', readable);
+ActivityList.prototype.stream = function (stream) {
+    stream
+        .pipe(map.obj(this.renderActivity))
+        .pipe(this._future);
 };
 
 /**
