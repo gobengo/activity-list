@@ -6,6 +6,9 @@
   "scripts": {
     "test": "mocha test"
   },
+  "browser": {
+    "readable-stream": "stream"
+  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
