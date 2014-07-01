@@ -45,9 +45,10 @@ ActivityList.prototype.renderActivity = function (activity) {
  * will be sorted. Works like fn in `[].sort(fn)`
  */
 ActivityList.prototype.comparator = function (a, b) {
-    var aPublished = Date.parse(a);
-    var bPublished = Date.parse(b);
-    return aPublished - bPublished;
+    // published date descending
+    var aPublished = Date.parse(a.published);
+    var bPublished = Date.parse(b.published);
+    return bPublished - aPublished;
 };
 
 /**
