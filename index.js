@@ -3,6 +3,11 @@
 module.exports = ActivityList;
 
 var through = require('through2');
+var More = require('stream-more');
+var mapStream = require('through2-map');
+var terminus = require('terminus');
+var noBufferOpts = { highWaterMark: 0, lowWaterMark: 0, objectMode: true };
+
 
 /**
  * Render an activity stream in an HTMLElement
@@ -11,27 +16,50 @@ var through = require('through2');
 function ActivityList(el) {
     var self = this;
     el = this.el = el || document.createElement('li');
-    this.pageSize = 10;
-    // activities that have been read
-    var activities = this.activities = [];
-    // future elements (streamed)
-    this._future = through.obj({
-        highWaterMark: 0,
-        lowWaterMark: 0
-    }, function (activity, encoding, next) {
-        activities.push(activity);
-        activities.sort(self.comparator);
-        next(null, activity);
-    }).on('data', function (activity) {
-        var newEl = self.renderActivity(activity)
-        if ( ! newEl) {
-            console.log("couldn't render activity to HTMLElement", activity);
-            return;
-        }
-        var index = activities.indexOf(activity);
+    // activities that have been rendered
+    this.activities = []
+    this.moreAmount = 10;
+
+    // write { el: el, activity: activity } -> append to this.el sorted
+    (this._adder = through.obj(noBufferOpts, function (rendered, e, next) {
+        var newEl = rendered.el;
+        var activity = rendered.activity;
+
+        self.activities.push(activity);
+        // determine index
+        self.activities.sort(self.comparator);
+        var index = rendered.index = self.activities.indexOf(activity);
+
         el.insertBefore(newEl, el.children[index]);
-    });
+        this.push(rendered);
+        next();
+    }))
+        // pipe _adder to devnull so it doesn't wait to be pulled from
+        .pipe(terminus.devnull({ objectMode: true }));
+
+    // gatekeep anything piped into .more
+    // only let stuff through when .showMore() is called
+    (this.more = through.obj(noBufferOpts))
+        .pipe(this._createRenderer())
+        .pipe(this._moreRendered = new More(noBufferOpts))
+            // proxy hold events so outsiders can listen for them
+            .on('hold', function () {
+                self.more.emit('hold');
+            })
+        .pipe(this._adder, { end: false });
+    
+    // render and add any updates
+    (this._updates = through.obj(noBufferOpts))
+        .pipe(this._createRenderer())
+        .pipe(this._adder, { end: false });
+
+    // show an initial amount
+    this.showMore();
 }
+
+ActivityList.prototype.showMore = function (amount) {
+    this._moreRendered.setGoal(amount || this.moreAmount);
+};
 
 /**
  * Render an Activity object into an HTMLElement
@@ -57,5 +85,25 @@ ActivityList.prototype.comparator = function (a, b) {
  * pass a very very long one to it. This is meant for real-time updates
  */
 ActivityList.prototype.stream = function (stream) {
-    stream.pipe(this._future);
+    stream.pipe(this._updates);
+};
+
+/**
+ * Create a transform that accepts activities
+ * it should read out objects like
+ * { el: this.renderActivity(activity), activity: activity }
+ */
+ActivityList.prototype._createRenderer = function () {
+    var self = this;
+    return through.obj(noBufferOpts, function (activity, enc, next) {
+        var stream = this;
+        var el = self.renderActivity(activity);
+        if (el && el.nodeType === 1) {
+            stream.push({
+                el: el,
+                activity: activity
+            });
+        }
+        next();
+    });
 };
