@@ -5,7 +5,6 @@ module.exports = ActivityList;
 var through = require('through2');
 var More = require('stream-more');
 var mapStream = require('through2-map');
-var terminus = require('terminus');
 var noBufferOpts = { highWaterMark: 0, lowWaterMark: 0, objectMode: true };
 
 
@@ -34,8 +33,8 @@ function ActivityList(el) {
         this.push(rendered);
         next();
     }))
-        // pipe _adder to devnull so it doesn't wait to be pulled from
-        .pipe(terminus.devnull({ objectMode: true }));
+        // make it hot so we dont wait for someone to pull from adds
+        .on('data', function () {});
 
     // gatekeep anything piped into .more
     // only let stuff through when .showMore() is called
