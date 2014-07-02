@@ -6,28 +6,19 @@
   "scripts": {
     "test": "mocha test"
   },
-  "browser": {
-    "readable-stream": "stream"
-  },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "activity-mocks": "0.0.0-dev.1",
     "brfs": "^1.1.1",
-    "browserify": "^4.1.11",
+    "browserify": "^4.2.0",
     "chai": "^1.9.1",
     "jsdom": "^0.11.0",
-    "readable-stream": "^1.0.27-1",
     "sinon": "^1.10.2",
     "watchify": "^0.10.2"
   },
   "dependencies": {
-    "inherits": "^2.0.1",
-    "is-array": "^1.0.1",
-    "readable-stream": "^1.0.27-1",
+    "stream-more": "^0.0.0",
     "through2": "^0.5.1",
-    "through2-filter": "^1.4.0",
-    "through2-map": "^1.4.0",
-    "util-extend": "^1.0.1"
   }
 }

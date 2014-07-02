@@ -4,7 +4,6 @@ module.exports = ActivityList;
 
 var through = require('through2');
 var More = require('stream-more');
-var mapStream = require('through2-map');
 var noBufferOpts = { highWaterMark: 0, lowWaterMark: 0, objectMode: true };
 
 
