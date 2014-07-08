@@ -28,7 +28,7 @@ function ActivityList(el) {
         self.activities.sort(self.comparator);
         var index = rendered.index = self.activities.indexOf(activity);
 
-        el.insertBefore(newEl, el.children[index]);
+        el.insertBefore(newEl, el.children[index] || null);
         this.push(rendered);
         next();
     }))
