@@ -5,7 +5,7 @@ module.exports = ActivityList;
 var through = require('through2');
 var More = require('stream-more');
 var noBufferOpts = { highWaterMark: 0, lowWaterMark: 0, objectMode: true };
-
+var parseIso = require('mout/date/parseIso');
 
 /**
  * Render an activity stream in an HTMLElement
@@ -22,7 +22,6 @@ function ActivityList(el) {
     (this._adder = through.obj(noBufferOpts, function (rendered, e, next) {
         var newEl = rendered.el;
         var activity = rendered.activity;
-
         self.activities.push(activity);
         // determine index
         self.activities.sort(self.comparator);
@@ -72,8 +71,8 @@ ActivityList.prototype.renderActivity = function (activity) {
  */
 ActivityList.prototype.comparator = function (a, b) {
     // published date descending
-    var aPublished = Date.parse(a.published);
-    var bPublished = Date.parse(b.published);
+    var aPublished = parseIso(a.published);
+    var bPublished = parseIso(b.published);
     return bPublished - aPublished;
 };
 
