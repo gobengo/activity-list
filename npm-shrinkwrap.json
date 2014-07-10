@@ -1,0 +1,101 @@
+{
+  "name": "activity-list",
+  "version": "0.0.8",
+  "dependencies": {
+    "mout": {
+      "version": "0.9.1",
+      "from": "mout@",
+      "resolved": "https://registry.npmjs.org/mout/-/mout-0.9.1.tgz"
+    },
+    "stream-more": {
+      "version": "0.0.2",
+      "from": "stream-more@^0.0.2",
+      "resolved": "https://registry.npmjs.org/stream-more/-/stream-more-0.0.2.tgz",
+      "dependencies": {
+        "inherits": {
+          "version": "2.0.1",
+          "from": "inherits@^2.0.1",
+          "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+        },
+        "stream-browserify": {
+          "version": "1.0.0",
+          "from": "stream-browserify@^1.0.0",
+          "resolved": "https://registry.npmjs.org/stream-browserify/-/stream-browserify-1.0.0.tgz"
+        },
+        "readable-stream": {
+          "version": "1.0.27-1",
+          "from": "readable-stream@^1.0.0",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.0.27-1.tgz",
+          "dependencies": {
+            "core-util-is": {
+              "version": "1.0.1",
+              "from": "core-util-is@~1.0.0",
+              "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.1.tgz"
+            },
+            "isarray": {
+              "version": "0.0.1",
+              "from": "isarray@0.0.1",
+              "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+            },
+            "string_decoder": {
+              "version": "0.10.25-1",
+              "from": "string_decoder@~0.10.x",
+              "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.25-1.tgz"
+            }
+          }
+        }
+      }
+    },
+    "through2": {
+      "version": "0.5.1",
+      "from": "https://github.com/gobengo/through2/archive/master.tar.gz",
+      "resolved": "https://github.com/gobengo/through2/archive/master.tar.gz",
+      "dependencies": {
+        "readable-stream": {
+          "version": "1.0.27-1",
+          "from": "readable-stream@~1.0.17",
+          "resolved": "https://registry.npmjs.org/readable-stream/-/readable-stream-1.0.27-1.tgz",
+          "dependencies": {
+            "core-util-is": {
+              "version": "1.0.1",
+              "from": "core-util-is@~1.0.0",
+              "resolved": "https://registry.npmjs.org/core-util-is/-/core-util-is-1.0.1.tgz"
+            },
+            "isarray": {
+              "version": "0.0.1",
+              "from": "isarray@0.0.1",
+              "resolved": "https://registry.npmjs.org/isarray/-/isarray-0.0.1.tgz"
+            },
+            "string_decoder": {
+              "version": "0.10.25-1",
+              "from": "string_decoder@~0.10.x",
+              "resolved": "https://registry.npmjs.org/string_decoder/-/string_decoder-0.10.25-1.tgz"
+            },
+            "inherits": {
+              "version": "2.0.1",
+              "from": "inherits@~2.0.1",
+              "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+            }
+          }
+        },
+        "stream-browserify": {
+          "version": "1.0.0",
+          "from": "stream-browserify@^1.0.0",
+          "resolved": "https://registry.npmjs.org/stream-browserify/-/stream-browserify-1.0.0.tgz",
+          "dependencies": {
+            "inherits": {
+              "version": "2.0.1",
+              "from": "inherits@~2.0.1",
+              "resolved": "https://registry.npmjs.org/inherits/-/inherits-2.0.1.tgz"
+            }
+          }
+        },
+        "xtend": {
+          "version": "3.0.0",
+          "from": "xtend@~3.0.0",
+          "resolved": "https://registry.npmjs.org/xtend/-/xtend-3.0.0.tgz"
+        }
+      }
+    }
+  }
+}
